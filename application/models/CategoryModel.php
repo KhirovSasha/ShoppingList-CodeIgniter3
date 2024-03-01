@@ -17,9 +17,28 @@ class CategoryModel extends CI_Model
                     )";
 
             $this->db->query($sql);
-
-            $this->load->model('CategoryItemModel');
-            $this->CategoryItemModel->createTable();
         }
+    }
+
+    public function create($name)
+    {
+        $data = array(
+            'name' => $name
+        );
+
+        $this->db->insert('categories', $data);
+        return $this->db->insert_id();
+    }
+
+    public function getAllCategories()
+    {
+        $query = $this->db->get('categories');
+
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $data) {
+                $array[] = $data;
+            }
+            return $array;
+        } 
     }
 }
